@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-0123456789abcdef0"
+  },
+  {
+    "ParameterKey": "SubnetId",
+    "ParameterValue": "subnet-0123456789abcdef0"
+  },
+  {
+    "ParameterKey": "PeerIpAddress",
+    "ParameterValue": "10.100.0.100"
+  },
+  {
+    "ParameterKey": "PeerAsn",
+    "ParameterValue": "65001"
+  },
+  {
+    "ParameterKey": "LocalAsn",
+    "ParameterValue": "64512"
+  },
+  {
+    "ParameterKey": "BgpMd5Key",
+    "ParameterValue": "testbgpkey123"
+  }
+]
