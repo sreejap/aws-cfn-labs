@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS VPC Route Server with Parameterized BGP Configuration
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where the Route Server will be created
+
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID in which to deploy the Route Server ENI
+
+  PeerIpAddress:
+    Type: String
+    Description: IP address of the BGP peer (e.g., NSX-T Edge interface)
+
+  PeerAsn:
+    Type: Number
+    Description: ASN of the BGP peer (e.g., NSX-T Edge ASN)
+
+  LocalAsn:
+    Type: Number
+    Description: ASN to be used by the Route Server (must be unique in your network)
+
+  BgpMd5Key:
+    Type: String
+    Description: Optional BGP MD5 authentication key
+
+Resources:
+  MyRouteServer:
+    Type: AWS::EC2::RouteServer
+    Properties:
+      VpcId: !Ref VpcId
+      SubnetId: !Ref SubnetId
+      Tags:
+        - Key: Name
+          Value: MyVPC-RouteServer
+
+  MyBGPSession:
+    Type: AWS::EC2::BGPSession
+    Properties:
+      RouteServerId: !Ref MyRouteServer
+      PeerIpAddress: !Ref PeerIpAddress
+      PeerAsn: !Ref PeerAsn
+      LocalAsn: !Ref LocalAsn
+      BgpMd5Key: !Ref BgpMd5Key
+      Tags:
+        - Key: Name
+          Value: MyVPC-BGPSession
+
+Outputs:
+  RouteServerId:
+    Description: Created Route Server ID
+    Value: !Ref MyRouteServer
+
+  BGPSessionId:
+    Description: Created BGP Session ID
+    Value: !Ref MyBGPSession
