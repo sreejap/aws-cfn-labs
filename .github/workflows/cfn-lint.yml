@@ -1,0 +1,27 @@
+name: CloudFormation Lint Validation
+
+on:
+  push:
+    paths:
+      - 'templates/**/*.yaml'
+      - '.github/workflows/cfn-lint.yml'
+  pull_request:
+    paths:
+      - 'templates/**/*.yaml'
+      - '.github/workflows/cfn-lint.yml'
+
+jobs:
+  cfn-lint:
+    runs-on: ubuntu-latest
+    name: Validate CloudFormation Templates
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install cfn-lint
+        run: |
+          pip install cfn-lint
+
+      - name: Run cfn-lint on templates
+        run: |
+          cfn-lint templates/**/*.yaml
